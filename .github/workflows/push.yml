@@ -22,6 +22,10 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install pylint pylint-exit
 
-    - name: Checks
+    - name: Pylint
       id: pylint
       run: python -m pylint -f colorized p64 || python -m pylint-exit -efail -wfail $?
+    
+    - name: Build
+      id: build
+      run: python setup.py sdist

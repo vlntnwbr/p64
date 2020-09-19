@@ -15,6 +15,6 @@ if __name__ == "__main__":
         url="https://github.com/vlntnwbr/p64",
         download_url="https://github.com/vlntnwbr/p64/archive/master.zip",
         entry_points={
-            "console_scripts": [NAME + " = p46.main:main"]
+            "console_scripts": [NAME + " = p64.main:main"]
         }
     )
