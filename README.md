@@ -1,6 +1,5 @@
-![](https://github.com/vlntnwbr/p64/workflows/Pylint/badge.svg)
+# p64 - Python Base64 Decoder ![](https://github.com/vlntnwbr/p64/workflows/Pylint/badge.svg)
 
-# p64 - Python Base64 Decoder
 This provides a quick entrypoint that decodes a list of base64 string a set
 amount of times, displays the result & optionally opens it in Chrome. In order
 for the last part to work _chrome.exe_ needs to be accessible via PATH.
