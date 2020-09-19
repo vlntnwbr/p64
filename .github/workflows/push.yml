@@ -24,4 +24,4 @@ jobs:
 
     - name: Checks
       id: pylint
-      run: python -m pylint -f colorized hanser_py_library || python -m pylint-exit -efail -wfail $?
+      run: python -m pylint -f colorized p64 || python -m pylint-exit -efail -wfail $?
