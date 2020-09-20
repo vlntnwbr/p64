@@ -1,6 +1,7 @@
 # Directories
 /dist/
 /.venv/
+/venv/
 /.idea/
 /.vscode/
 /__pychache__/

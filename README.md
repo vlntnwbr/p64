@@ -6,7 +6,8 @@ for the last part to work _chrome.exe_ needs to be accessible via PATH.
 
 
 ## Installation
-Installing through [pipx][1] isolates packages in their own environment and exposes their entrypoints via PATH.
+Installing through [pipx][1] isolates packages in their own environment and
+exposes their entrypoints via PATH.
 ```
 pipx install https://github.com/vlntnwbr/p64/archive/master.zip
 ```
@@ -17,18 +18,21 @@ pip install https://github.com/vlntnwbr/p64/archive/master.zip
 
 ## Usage
 ```
-# This will decode each string once
-PS C:\> p64 SGVsbG8= V29ybGQ=
-RESULT    Hello
-RESULT    World
+# Decode each string and open the result in chrome 
 
-# This will decode the string twice and opens the result in chrome
-PS C:\> p64 -l 2 -o YUhSMGNITTZMeTluYVhSb2RXSXVZMjl0TDNac2JuUnVkMkp5TDNBMk5BPT0=
+PS C:\> p64 aHR0cHM6Ly9naXRodWIuY29tL3ZsbnRud2Jy aHR0cHM6Ly9naXRodWIuY29tL3ZsbnRud2JyL3A2NA==
+OPENING   https://github.com/vlntnwbr
 OPENING   https://github.com/vlntnwbr/p64
 
-# This will show a detailed help message
+# Decode the string twice and print result
+
+PS C:\> p64 -s -l 2 U0dWc2JHOGdWMjl5YkdRaA==
+RESULT    Hello World!
+
+# Show help
+
 PS C:\> p64 -h
-usage: p64 [-h] [-l] [-o] base64 [base64 ...]
+usage: p64 [-h] [-s] [-l] base64 [base64 ...]
 
 Decode base64 input n times & optionally open result in chrome.
 
@@ -37,10 +41,10 @@ positional arguments:
 
 optional arguments:
   -h, --help     show this help message and exit
+  -s, --silent   skips opening results in chrome if set
   -l , --level   defines how many times all input is decoded (default = 1)
-  -o, --open     opens all input in chrome if set
 
-p64 will exit if -o, --open is set and chrome can't be located.
+p64 will exit if chrome can't be located and -s isn't set.
 ```
 
 [1]: https://github.com/pipxproject/pipx
