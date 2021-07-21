@@ -105,15 +105,14 @@ def main():
     """Entrypoint for p64."""
 
     args = ApplicationArgs()
-    print(args.parsed.level)
     p64 = Application(args.parsed.level, args.parsed.browser, args.parsed.silent)
-    """for content in args.parsed.base64:
+    for content in args.parsed.base64:
         try:
             p64.run(content)
         except ApplicationError:
             p64.error = None
         except FileNotFoundError:
-            sys.exit("p64 could not locate browser.")"""
+            sys.exit("p64 could not locate browser.")
 
 
 if __name__ == "__main__":
