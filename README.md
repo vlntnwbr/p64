@@ -23,28 +23,31 @@ pip install https://github.com/vlntnwbr/p64/archive/master.zip
 PS C:\> p64 aHR0cHM6Ly9naXRodWIuY29tL3ZsbnRud2Jy aHR0cHM6Ly9naXRodWIuY29tL3ZsbnRud2JyL3A2NA==
 OPENING   https://github.com/vlntnwbr
 OPENING   https://github.com/vlntnwbr/p64
+```
 
-# Decode the string twice and print result
+### Decode the string twice and print result
 
+```
 PS C:\> p64 -s -l 2 U0dWc2JHOGdWMjl5YkdRaA==
 RESULT    Hello World!
-
-# Show help
-
+```
+### Show help
+```
 PS C:\> p64 -h
-usage: p64 [-h] [-s] [-l] base64 [base64 ...]
+usage: p64 [-h] [-s] [-l] [-b] base64 [base64 ...]
 
-Decode base64 input n times & optionally open result in chrome.
+Decodes base64 input and opens result in given browser. If browser is not specified p64 will use path in 'P64_BROWSER' environment variable.
 
 positional arguments:
-  base64         contains list of base64 strings to be decoded
+  base64           contains list of base64 strings to be decoded
 
 optional arguments:
-  -h, --help     show this help message and exit
-  -s, --silent   skips opening results in chrome if set
-  -l , --level   defines how many times all input is decoded (default = 1)
+  -h, --help       show this help message and exit
+  -s, --silent     skips opening results in browser if set
+  -l , --level     defines how many times all input is decoded (default = 1)
+  -b , --browser   path to browser executable.
 
-p64 will exit if chrome can't be located and -s isn't set.
+The application will exit if --silent isn't set and a browser either isn't specified or it'S executable can't be located.
 ```
 
 [1]: https://github.com/pipxproject/pipx

@@ -2,6 +2,7 @@
 
 import argparse
 import base64
+import os
 import subprocess
 import sys
 
@@ -13,8 +14,9 @@ class ApplicationError(BaseException):
 class Application:  # pylint: disable=too-few-public-methods
     """Application object."""
 
-    def __init__(self, level: int, silent: bool):
+    def __init__(self, level: int, browser: str, silent: bool):
         self.level = level
+        self.browser = browser
         self.silent = silent
         self.error = None
 
@@ -27,6 +29,10 @@ class Application:  # pylint: disable=too-few-public-methods
             print(logmsg.format("ERROR", str(self.error)))
             raise ApplicationError(self.error)
         if not self.silent:
+            if self.browser is None:
+                err = "No browser specified and env var 'P64_BROWSER' not set"
+                print("ERROR", err)
+                raise ApplicationError(err)
             logcat = "OPENING"
             self._open(decoded)
         print(logmsg.format(logcat, decoded))
@@ -44,32 +50,47 @@ class Application:  # pylint: disable=too-few-public-methods
     def _open(self, url: str) -> None:  # pylint: disable=no-self-use
         """Open URL in default webbrowser."""
         try:
-            subprocess.run(["chrome", url], check=True)
+            subprocess.run([self.browser, url], check=True)
         except subprocess.CalledProcessError as exc:
             raise ApplicationError from exc
 
 
 class ApplicationArgs(argparse.ArgumentParser):
     """Argument Parser for p64 cli."""
+    
+    DESC = (
+        "Decodes base64 input and opens result in given browser. If browser is"
+        " not specified p64 will use path in 'P64_BROWSER' environment"
+        " variable."
+        )
+    EPILOGUE = (
+        "The application will exit if --silent isn't set and a browser either"
+        " isn't specified or it'S executable can't be located."
+    )
 
     def __init__(self):
         super(ApplicationArgs, self).__init__(  # pylint: disable=super-with-arguments
             prog="p64",
-            description="Decodes base64 input and opens result in chrome.",
-            epilog="p64 exits if chrome isn't found and --silent isn't set."
+            description=self.DESC,
+            epilog=self.EPILOGUE
         )
         self.add_argument(
             "-s", "--silent",
-            help="skips opening results in chrome if set",
+            help="skips opening results in browser if set",
             dest="silent",
             action="store_true"
         )
         self.add_argument(
             "-l", "--level",
             help="defines how many times all input is decoded (default = 1)",
-            metavar="",
-            type=int,
+            action="count",
             default=1
+        )
+        self.add_argument(
+            "-b", "--browser",
+            help="path to browser executable.",
+            metavar="",
+            default=os.getenv("P64_BROWSER")
         )
         self.add_argument(
             "base64",
@@ -84,14 +105,15 @@ def main():
     """Entrypoint for p64."""
 
     args = ApplicationArgs()
-    p64 = Application(args.parsed.level, args.parsed.silent)
-    for content in args.parsed.base64:
+    print(args.parsed.level)
+    p64 = Application(args.parsed.level, args.parsed.browser, args.parsed.silent)
+    """for content in args.parsed.base64:
         try:
             p64.run(content)
         except ApplicationError:
             p64.error = None
         except FileNotFoundError:
-            sys.exit("p64 could not locate Chrome.")
+            sys.exit("p64 could not locate browser.")"""
 
 
 if __name__ == "__main__":
