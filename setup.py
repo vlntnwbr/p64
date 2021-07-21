@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 NAME = "p64"
 DESC = "Decode base64 input n times & optionally open result in chrome."
-VERSION = "0.2.0"
+VERSION = "0.3.0"
 
 if __name__ == "__main__":
     setup(
